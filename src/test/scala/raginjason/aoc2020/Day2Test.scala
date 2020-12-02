@@ -56,7 +56,7 @@ object Day2Test {
 
     forAll(samplePasswordValidation) { (input, expected) =>
       test(s"Password validation($input)") {
-        assert(input.validate == expected)
+        assert(input.validatePasswordsPart1 == expected)
       }
     }
 
@@ -71,12 +71,12 @@ object Day2Test {
         Password(1, 3, 'a', "abcde"),
         Password(2, 9, 'c', "ccccccccc")
       )
-      assert(validPasswords(input).length == 2)
-      assert(validPasswords(input) == expected)
+      assert(validPasswordsPart1(input).length == 2)
+      assert(validPasswordsPart1(input) == expected)
     }
 
     test(s"validPasswords count against input") {
-      assert(validPasswords(parsePasswords(input)).length == 418)
+      assert(validPasswordsPart1(parsePasswords(input)).length == 418)
     }
   }
 

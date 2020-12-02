@@ -8,7 +8,7 @@ object Day2 {
   lazy val input: String = io.Source.fromInputStream(getClass.getResourceAsStream("day2.txt")).mkString.trim
 
   def main(args: Array[String]): Unit = {
-    println(validPasswords(parsePasswords(input)).length)
+    println(validPasswordsPart1(parsePasswords(input)).length)
   }
 
   def parsePasswords(input: String): Seq[Password] = (input: StringOps).lines.map(x => parsePassword(x)).toSeq
@@ -20,10 +20,10 @@ object Day2 {
     Password(minMax(0).toInt, minMax(1).toInt, initialParts(1).charAt(0), initialParts(2))
   }
 
-  def validPasswords(passwords: Seq[Password]) = passwords.filter(_.validate)
+  def validPasswordsPart1(passwords: Seq[Password]) = passwords.filter(_.validatePasswordsPart1)
 
   case class Password(min: Int, max: Int, char: Char, password: String) {
-    val validate: Boolean = password.count(_ == char) match {
+    val validatePasswordsPart1: Boolean = password.count(_ == char) match {
       case x if min to max contains x => true
       case _ => false
     }
