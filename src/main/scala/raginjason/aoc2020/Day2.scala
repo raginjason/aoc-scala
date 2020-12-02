@@ -9,6 +9,7 @@ object Day2 {
 
   def main(args: Array[String]): Unit = {
     println(validPasswordsPart1(parsePasswords(input)).length)
+    println(validPasswordsPart2(parsePasswords(input)).length)
   }
 
   def parsePasswords(input: String): Seq[Password] = (input: StringOps).lines.map(x => parsePassword(x)).toSeq
@@ -22,9 +23,15 @@ object Day2 {
 
   def validPasswordsPart1(passwords: Seq[Password]) = passwords.filter(_.validatePasswordsPart1)
 
+  def validPasswordsPart2(passwords: Seq[Password]) = passwords.filter(_.validatePasswordsPart2)
+
   case class Password(min: Int, max: Int, char: Char, password: String) {
     val validatePasswordsPart1: Boolean = password.count(_ == char) match {
       case x if min to max contains x => true
+      case _ => false
+    }
+    val validatePasswordsPart2: Boolean = password match {
+      case x if password(min - 1) == char ^ password(max - 1) == char => true
       case _ => false
     }
   }

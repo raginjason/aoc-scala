@@ -7,7 +7,7 @@ import raginjason.aoc2020.Day2._
 import raginjason.aoc2020.Day2Test._
 
 class Day2Test extends Suites(
-  new Part1Test
+  new Part1Test, new Part2Test
 )
 
 object Day2Test {
@@ -60,7 +60,7 @@ object Day2Test {
       }
     }
 
-    test(s"validPasswords against sample") {
+    test(s"validPasswordsPart1 against sample") {
       val input = Seq(
         Password(1, 3, 'a', "abcde"),
         Password(1, 3, 'b', "cdefg"),
@@ -75,9 +75,30 @@ object Day2Test {
       assert(validPasswordsPart1(input) == expected)
     }
 
-    test(s"validPasswords count against input") {
+    test(s"validPasswordsPart1 count against input") {
       assert(validPasswordsPart1(parsePasswords(input)).length == 418)
     }
+  }
+
+  class Part2Test extends AnyFunSuite with ScalaCheckPropertyChecks {
+    test(s"validPasswordsPart2 against sample") {
+      val input = Seq(
+        Password(1, 3, 'a', "abcde"),
+        Password(1, 3, 'b', "cdefg"),
+        Password(2, 9, 'c', "ccccccccc")
+      )
+
+      val expected = Seq(
+        Password(1, 3, 'a', "abcde")
+      )
+      assert(validPasswordsPart2(input).length == 1)
+      assert(validPasswordsPart2(input) == expected)
+    }
+
+    test(s"validPasswordsPart2 count against input") {
+      assert(validPasswordsPart2(parsePasswords(input)).length == 616)
+    }
+
   }
 
 }
