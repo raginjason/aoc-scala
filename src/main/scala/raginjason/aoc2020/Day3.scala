@@ -6,9 +6,17 @@ object Day3 {
 
   // Slurp in file
   lazy val input: String = io.Source.fromInputStream(getClass.getResourceAsStream("day3.txt")).mkString.trim
+  val slopes: Seq[Slope] = Seq(
+    Slope(1, 1),
+    Slope(3, 1),
+    Slope(5, 1),
+    Slope(7, 1),
+    Slope(1, 2),
+  )
 
   def main(args: Array[String]): Unit = {
     println(countTrees(parsePuzzleMap(input), 3, 1))
+    println(multiplyTreeCount(countTreesAllSlopes(parsePuzzleMap(input), slopes)))
   }
 
   def parsePuzzleMap(input: String): Seq[Stream[Boolean]] = (input: StringOps).lines.map(x => parsePuzzleMapRow(x)).toSeq
@@ -27,8 +35,7 @@ object Day3 {
     var offset: Int = 0
     var treeCount: Int = 0
     for (row <- puzzleMap.zipWithIndex.collect {
-      case (x, i) if i == 1 => x
-      case (x, i) if (i + 1) % downDistance == 0 => x
+      case (x, i) if i % downDistance == 0 => x
     }.tail) {
       offset += rightDistance
       if (row.slice(offset, offset + 1).head) {
@@ -37,5 +44,13 @@ object Day3 {
     }
     treeCount
   }
+
+  def countTreesAllSlopes(puzzleMap: Seq[Stream[Boolean]], slopes: Seq[Slope]): Seq[Int] = {
+    slopes.map(x => countTrees(puzzleMap, x.rightDistance, x.downDistance))
+  }
+
+  def multiplyTreeCount(treeCounts: Seq[Int]): BigInt = treeCounts.map(BigInt(_)).product
+
+  case class Slope(rightDistance: Int, downDistance: Int)
 
 }

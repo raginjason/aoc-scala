@@ -7,7 +7,7 @@ import raginjason.aoc2020.Day3._
 import raginjason.aoc2020.Day3Test._
 
 class Day3Test extends Suites(
-  new Part1Test
+  new Part1Test, new Part2Test
 )
 
 object Day3Test {
@@ -45,4 +45,52 @@ object Day3Test {
       assert(countTrees(parsePuzzleMap(input), 3, 1) == 237)
     }
   }
+
+  class Part2Test extends AnyFunSuite with ScalaCheckPropertyChecks {
+    val samplePuzzleMap: String =
+      """..##.......
+        |#...#...#..
+        |.#....#..#.
+        |..#.#...#.#
+        |.#...##..#.
+        |..#.##.....
+        |.#.#.#....#
+        |.#........#
+        |#.##...#...
+        |#...##....#
+        |.#..#...#.#""".stripMargin
+
+    test(s"countTrees(1,1) against sample") {
+      assert(countTrees(parsePuzzleMap(samplePuzzleMap), 1, 1) == 2)
+    }
+
+    test(s"countTrees(5,1) against sample") {
+      assert(countTrees(parsePuzzleMap(samplePuzzleMap), 5, 1) == 3)
+    }
+
+    test(s"countTrees(7,1) against sample") {
+      assert(countTrees(parsePuzzleMap(samplePuzzleMap), 7, 1) == 4)
+    }
+
+    test(s"countTrees(1,2) against sample") {
+      assert(countTrees(parsePuzzleMap(samplePuzzleMap), 1, 2) == 2)
+    }
+
+    test(s"countTreesAllSlopes() against sample") {
+      assert(countTreesAllSlopes(parsePuzzleMap(samplePuzzleMap), slopes) == Seq(2, 7, 3, 4, 2))
+    }
+
+    test(s"countTreesAllSlopes() against input") {
+      assert(countTreesAllSlopes(parsePuzzleMap(input), slopes) == Seq(65, 237, 59, 61, 38))
+    }
+
+    test(s"multiplyTreeCount() against sample") {
+      assert(multiplyTreeCount(countTreesAllSlopes(parsePuzzleMap(samplePuzzleMap), slopes)) == 336)
+    }
+
+    test(s"multiplyTreeCount() against input") {
+      assert(multiplyTreeCount(countTreesAllSlopes(parsePuzzleMap(input), slopes)) == 2106818610)
+    }
+  }
+
 }
