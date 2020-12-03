@@ -8,7 +8,7 @@ object Day3 {
   lazy val input: String = io.Source.fromInputStream(getClass.getResourceAsStream("day3.txt")).mkString.trim
 
   def main(args: Array[String]): Unit = {
-    println(countTrees(parsePuzzleMap(input)))
+    println(countTrees(parsePuzzleMap(input), 3, 1))
   }
 
   def parsePuzzleMap(input: String): Seq[Stream[Boolean]] = (input: StringOps).lines.map(x => parsePuzzleMapRow(x)).toSeq
@@ -23,11 +23,14 @@ object Day3 {
     row
   }
 
-  def countTrees(puzzleMap: Seq[Stream[Boolean]]): Int = {
+  def countTrees(puzzleMap: Seq[Stream[Boolean]], rightDistance: Int, downDistance: Int): Int = {
     var offset: Int = 0
     var treeCount: Int = 0
-    for (row <- puzzleMap.tail) { // Skip first row
-      offset += 3
+    for (row <- puzzleMap.zipWithIndex.collect {
+      case (x, i) if i == 1 => x
+      case (x, i) if (i + 1) % downDistance == 0 => x
+    }.tail) {
+      offset += rightDistance
       if (row.slice(offset, offset + 1).head) {
         treeCount += 1
       }

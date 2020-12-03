@@ -37,11 +37,12 @@ object Day3Test {
       assert(parsePuzzleMap(samplePuzzleMap).head.take(5) == Seq(false, false, true, true, false))
     }
 
-    test(s"countTrees() against sample") {
-      assert(countTrees(parsePuzzleMap(samplePuzzleMap)) == 7)
+    test(s"countTrees(3,1) against sample") {
+      assert(countTrees(parsePuzzleMap(samplePuzzleMap), 3, 1) == 7)
     }
 
     test(s"countTrees() against input") {
-      assert(countTrees(parsePuzzleMap(input)) == 237)
+      assert(countTrees(parsePuzzleMap(input), 3, 1) == 237)
     }
   }
+}
