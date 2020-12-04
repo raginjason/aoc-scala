@@ -8,7 +8,7 @@ import raginjason.aoc2020.Day4._
 import raginjason.aoc2020.Day4Test._
 
 class Day4Test extends Suites(
-  new Part1Test
+  new Part1Test, new Part2Test
 )
 
 object Day4Test {
@@ -44,7 +44,7 @@ object Day4Test {
       )
 
     forAll(expectedPassports) { (input, expectedValid) =>
-      test(s"Passport($input).isValid") {
+      test(s"Passport($input).hasRequiredFields") {
         val p = Passport(input)
         assert(p.hasRequiredFields == expectedValid)
       }
@@ -59,6 +59,89 @@ object Day4Test {
       val p = validPassports(splitPassports(input))
       assert(p.length == 206)
     }
+  }
+
+  class Part2Test extends AnyFunSuite with ScalaCheckPropertyChecks {
+
+    val sampleBirthYears: TableFor2[String, Boolean] =
+      Table(
+        ("input", "expected"),
+        ("byr:1919", false),
+        ("byr:1920", true),
+        ("byr:1921", true),
+        ("byr:2001", true),
+        ("byr:2002", true),
+        ("byr:2003", false),
+      )
+
+    forAll(sampleBirthYears) { (input, expected) =>
+      test(s"BirthYear($input).isValid") {
+        assert(BirthYear(Option(input)).isValid == expected)
+      }
+    }
+
+    val sampleIssueYears: TableFor2[String, Boolean] =
+      Table(
+        ("input", "expected"),
+        ("iyr:2009", false),
+        ("iyr:2010", true),
+        ("iyr:2011", true),
+        ("iyr:2019", true),
+        ("iyr:2020", true),
+        ("iyr:2021", false),
+      )
+
+    forAll(sampleIssueYears) { (input, expected) =>
+      test(s"IssueYear($input).isValid") {
+        assert(IssueYear(Option(input)).isValid == expected)
+      }
+    }
+
+    val sampleExpirationYears: TableFor2[String, Boolean] =
+      Table(
+        ("input", "expected"),
+        ("eyr:2019", false),
+        ("eyr:2020", true),
+        ("eyr:2021", true),
+        ("eyr:2029", true),
+        ("eyr:2030", true),
+        ("eyr:2031", false),
+      )
+
+    forAll(sampleExpirationYears) { (input, expected) =>
+      test(s"ExpirationYear($input).isValid") {
+        assert(ExpirationYear(Option(input)).isValid == expected)
+      }
+    }
+
+    val sampleHeight: TableFor2[String, Boolean] =
+      Table(
+        ("input", "expected"),
+        ("hgt:149cm", false),
+        ("hgt:150cm", true),
+        ("hgt:151cm", true),
+        ("hgt:192cm", true),
+        ("hgt:193cm", true),
+        ("hgt:194cm", false),
+        ("hgt:58in", false),
+        ("hgt:59in", true),
+        ("hgt:60in", true),
+        ("hgt:75in", true),
+        ("hgt:76in", true),
+        ("hgt:77in", false),
+      )
+
+    forAll(sampleHeight) { (input, expected) =>
+      test(s"Height($input).isValid") {
+        assert(Height(Option(input)).isValid == expected)
+      }
+    }
+
+    test(s"validPassportsPart2(splitPassports()) input") {
+      val p = validPassportsPart2(splitPassports(input))
+      assert(p.length == 123)
+    }
+
   }
 
 }
