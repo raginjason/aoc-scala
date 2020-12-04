@@ -46,7 +46,7 @@ object Day4Test {
     forAll(expectedPassports) { (input, expectedValid) =>
       test(s"Passport($input).isValid") {
         val p = Passport(input)
-        assert(p.isValid == expectedValid)
+        assert(p.hasRequiredFields == expectedValid)
       }
     }
 

@@ -16,7 +16,7 @@ object Day4 {
   }
 
   def validPassports(input: Seq[String]): Seq[Passport] = {
-    input.map(Passport).filter(_.isValid)
+    input.map(Passport).filter(_.hasRequiredFields)
   }
 
   case class Passport(input: String) {
@@ -25,7 +25,7 @@ object Day4 {
       case x if x > 0 => true
       case _ => false
     }
-    val isValid: Boolean = {
+    val hasRequiredFields: Boolean = {
       length == 8 | length == 7 & !hasCountryId
     }
   }
