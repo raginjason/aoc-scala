@@ -8,7 +8,7 @@ import raginjason.aoc2020.Day5._
 import raginjason.aoc2020.Day5Test._
 
 class Day5Test extends Suites(
-  new Part1Test
+  new Part1Test, new Part2Test
 )
 
 object Day5Test {
@@ -55,6 +55,12 @@ object Day5Test {
       assert(allSeatIds(parseBoardingPasses(input)).max == 850)
     }
 
+  }
+
+  class Part2Test extends AnyFunSuite with ScalaCheckPropertyChecks {
+    test(s"allSeatIds(ParseBoardingPasses)) against input") {
+      assert(mySeatId(allSeatIds(parseBoardingPasses(input))) == 599)
+    }
   }
 
 }

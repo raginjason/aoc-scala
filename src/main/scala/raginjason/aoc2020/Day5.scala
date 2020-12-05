@@ -9,6 +9,16 @@ object Day5 {
 
   def main(args: Array[String]): Unit = {
     println(allSeatIds(parseBoardingPasses(input)).max)
+    println(mySeatId(allSeatIds(parseBoardingPasses(input))))
+  }
+
+  def mySeatId(seatIds: Seq[Int]): Int = {
+    val sortedSeatIds = seatIds.sorted
+    val seatIdRange = sortedSeatIds.head to sortedSeatIds.last
+
+    sortedSeatIds.zip(seatIdRange).collect {
+      case (a, b) if a != b => b
+    }.head
   }
 
   def allSeatIds(boardingPasses: Seq[BoardingPass]): Seq[Int] = {
