@@ -8,23 +8,17 @@ object Day6 {
   lazy val input: String = io.Source.fromInputStream(getClass.getResourceAsStream("day6.txt")).mkString.trim
 
   def main(args: Array[String]): Unit = {
-    println(totalAnswers(parseAnswerGroups(splitAnswerGroups(input))))
+    println(AnswerGroups(input).totalAnswers)
   }
 
-  def splitAnswerGroups(input: String): Seq[String] = {
-    (input: StringOps).split("(?m)^\\s*$").map(_.replaceAll("\n", "").trim)
+  case class AnswerGroups(rawInput: String) {
+    val personAnswers: Seq[PersonAnswers] = (rawInput: StringOps).split("(?m)^\\s*$").map(PersonAnswers)
+    val uniqueAnswers: Seq[Set[Char]] = personAnswers.map(x => x.answers.flatten.toSet)
+    val totalAnswers: Int = uniqueAnswers.map(_.size).sum
   }
 
-  def parseAnswerGroups(input: Seq[String]): Seq[AnswerGroup] = {
-    input.map(AnswerGroup)
-  }
-
-  def totalAnswers(input: Seq[AnswerGroup]): Int = {
-    input.map(_.answers.size).sum
-  }
-
-  case class AnswerGroup(input: String) {
-    val answers: Set[Char] = input.filterNot((x: Char) => x.isWhitespace).toSet
+  case class PersonAnswers(rawInput: String) {
+    val answers: Seq[Set[Char]] = rawInput.trim.split('\n').map(_.toSet).toSeq
   }
 
 }

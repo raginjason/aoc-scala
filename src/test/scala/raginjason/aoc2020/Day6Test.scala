@@ -2,7 +2,6 @@ package raginjason.aoc2020
 
 import org.scalatest.Suites
 import org.scalatest.funsuite.AnyFunSuite
-import org.scalatest.prop.TableFor2
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 import raginjason.aoc2020.Day6._
 import raginjason.aoc2020.Day6Test._
@@ -32,50 +31,31 @@ object Day6Test {
         |
         |b""".stripMargin
 
-    val expectedAnswerGroups: TableFor2[String, Set[Char]] =
-      Table(
-        ("input", "expected"),
-        ("abc", Set('a', 'b', 'c')),
-        (
-          """a
-            |b
-            |c""".stripMargin, Set('a', 'b', 'c')),
-        (
-          """ab
-            |ac""".stripMargin, Set('a', 'b', 'c')),
-        (
-          """a
-            |a
-            |a
-            |a""".stripMargin, Set('a')),
-        ("""b""".stripMargin, Set('b')),
+    test(s"AnswerGroups().personAnswers answers against sample") {
+      val a = AnswerGroups(sampleCustomsForms).personAnswers.map(_.answers)
+      assert(a == Seq(
+        Seq(Set('a', 'b', 'c')),
+        Seq(Set('a'), Set('b'), Set('c')),
+        Seq(Set('a', 'b'), Set('a', 'c')),
+        Seq(Set('a'), Set('a'), Set('a'), Set('a')),
+        Seq(Set('b'))
       )
-
-    forAll(expectedAnswerGroups) { (input, expected) =>
-      test(s"AnswerGroup($input).answers against sample") {
-        val a = AnswerGroup(input)
-        //println(a.answers)
-        assert(a.answers == expected)
-      }
+      )
     }
 
-    test(s"splitAnswerGroups() against sample") {
-      val a = splitAnswerGroups(sampleCustomsForms)
-      assert(a == Seq("abc", "abc", "abac", "aaaa", "b"))
-    }
 
-    test(s"parseAnswerGroups() against sample") {
-      val a = parseAnswerGroups(splitAnswerGroups(sampleCustomsForms)).map(_.answers)
+    test(s"AnswerGroups().uniqueAnswers against sample") {
+      val a = AnswerGroups(sampleCustomsForms).uniqueAnswers
       assert(a == Seq(Set('a', 'b', 'c'), Set('a', 'b', 'c'), Set('a', 'b', 'c'), Set('a'), Set('b')))
     }
 
-    test(s"totalAnswers() against sample") {
-      val a = totalAnswers(parseAnswerGroups(splitAnswerGroups(sampleCustomsForms)))
+    test(s"AnswerGroups().totalAnswers against sample") {
+      val a = AnswerGroups(sampleCustomsForms).totalAnswers
       assert(a == 11)
     }
 
-    test(s"totalAnswers() against input") {
-      val a = totalAnswers(parseAnswerGroups(splitAnswerGroups(input)))
+    test(s"AnswerGroups().totalAnswers against input") {
+      val a = AnswerGroups(input).totalAnswers
       assert(a == 6542)
     }
 
