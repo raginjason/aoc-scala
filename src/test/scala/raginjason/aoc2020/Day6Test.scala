@@ -59,6 +59,21 @@ object Day6Test {
       assert(a == 6542)
     }
 
+    test(s"AnswerGroups().intersectingAnswers against sample") {
+      val a = AnswerGroups(sampleCustomsForms).intersectingAnswers
+      assert(a == Seq(Set('a', 'b', 'c'), Set(), Set('a'), Set('a'), Set('b')))
+    }
+
+    test(s"AnswerGroups().totalIntersectingAnswers against sample") {
+      val a = AnswerGroups(sampleCustomsForms).totalIntersectingAnswers
+      assert(a == 6)
+    }
+
+    test(s"AnswerGroups().totalIntersectingAnswers against input") {
+      val a = AnswerGroups(input).totalIntersectingAnswers
+      assert(a == 3299)
+    }
+
   }
 
 }
