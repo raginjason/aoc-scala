@@ -25,28 +25,28 @@ object Day15Test {
       val a = parseSeedMoves(sampleSeedMoves)
       val g = Game()
       g.makeSeedMoves(a)
-      assert(g.Moves == Seq(0, 3, 6))
+      assert(g.lastMove == 6)
 
       (g.makeMove _).tupled(g.calculateNextMove())
-      assert(g.Moves == Seq(0, 3, 6, 0))
+      assert(g.lastMove == 0)
 
       (g.makeMove _).tupled(g.calculateNextMove())
-      assert(g.Moves == Seq(0, 3, 6, 0, 3))
+      assert(g.lastMove == 3)
 
       (g.makeMove _).tupled(g.calculateNextMove())
-      assert(g.Moves == Seq(0, 3, 6, 0, 3, 3))
+      assert(g.lastMove == 3)
 
       (g.makeMove _).tupled(g.calculateNextMove())
-      assert(g.Moves == Seq(0, 3, 6, 0, 3, 3, 1))
+      assert(g.lastMove == 1)
 
       (g.makeMove _).tupled(g.calculateNextMove())
-      assert(g.Moves == Seq(0, 3, 6, 0, 3, 3, 1, 0))
+      assert(g.lastMove == 0)
 
       (g.makeMove _).tupled(g.calculateNextMove())
-      assert(g.Moves == Seq(0, 3, 6, 0, 3, 3, 1, 0, 4))
+      assert(g.lastMove == 4)
 
       (g.makeMove _).tupled(g.calculateNextMove())
-      assert(g.Moves == Seq(0, 3, 6, 0, 3, 3, 1, 0, 4,0))
+      assert(g.lastMove == 0)
     }
 
     test("playUntil(10) on sample" ) {

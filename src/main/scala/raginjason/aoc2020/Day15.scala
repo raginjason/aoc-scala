@@ -41,7 +41,7 @@ object Day15 {
     }
 
     def calculateSeedMove(seedMove: Int): (Move, TurnHistory) = {
-      val offset = this.Moves.length + 1
+      val offset = this.moveOffset + 1
       val turnHistory = this.MoveHistory.getOrElse(seedMove, TurnHistory())
       val (newMove, newTurnHistory) = turnHistory match {
         case TurnHistory(0,0) => (seedMove, turnHistory.nextTurn(offset))
@@ -51,12 +51,11 @@ object Day15 {
     }
 
     var MoveHistory: mutable.Map[Move, TurnHistory] = mutable.Map[Move, TurnHistory]()
-    var Moves: Seq[Int] = Seq[Int]()
+    var lastMove: Int = 0
     var moveOffset: Int = 0
 
     def calculateNextMove(): (Move, TurnHistory) = {
-      val latestMove = this.Moves.last
-      val turnHistory = this.MoveHistory.getOrElse(latestMove, TurnHistory())
+      val turnHistory = this.MoveHistory.getOrElse(this.lastMove, TurnHistory())
 
       val nextMove = turnHistory match {
         case t if t.secondMostRecentTurn == 0 => 0
@@ -73,7 +72,7 @@ object Day15 {
 
     def makeMove(move: Move, turnHistory: TurnHistory): Unit = {
       this.moveOffset += 1
-      this.Moves = this.Moves :+ move
+      this.lastMove = move
       this.MoveHistory(move) = turnHistory
     }
 
@@ -81,7 +80,7 @@ object Day15 {
       do {
         (this.makeMove _).tupled(this.calculateNextMove())
       } while (this.moveOffset != finalMove)
-      this.Moves.last
+      this.lastMove
     }
 
   }
