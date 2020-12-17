@@ -16,6 +16,7 @@ object Day15 {
     g.makeSeedMoves(a)
 
     println(f"Part 1: ${g.playUntil(2020)}")
+    println(f"Part 2: ${g.playUntil(30000000)}")
   }
 
   def parseSeedMoves(input: String): Seq[Int] = {

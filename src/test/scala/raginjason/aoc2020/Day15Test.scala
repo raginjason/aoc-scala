@@ -76,6 +76,15 @@ object Day15Test {
       assert(finalPlay == 496)
     }
 
+    test("playUntil(30000000) == 883 on input" ) {
+      val a = parseSeedMoves(input)
+      val g = Game()
+      g.makeSeedMoves(a)
+
+      val finalPlay = g.playUntil(30000000)
+      assert(finalPlay == 883)
+    }
+
   }
 
 }
