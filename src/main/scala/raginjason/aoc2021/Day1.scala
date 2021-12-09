@@ -9,6 +9,7 @@ object Day1 {
 
   def main(args: Array[String]): Unit = {
     println(filterIncreasingMeasurements(parseMeasurements(input)).length)
+    println(filterGroupedIncreasingMeasurements(parseMeasurements(input)).length)
   }
 
   def parseMeasurements(input: String): Seq[Int] = (input: StringOps).lines.map(_.toInt).toSeq
@@ -24,5 +25,11 @@ object Day1 {
     }.toList
 
     categorizedMeasurements.filter(_._2 == "increased").map(_._1)
+  }
+
+  def filterGroupedIncreasingMeasurements(measurements: Seq[Int]): Seq[Int] = {
+    val groupedMeasurements = measurements.sliding(3, 1).map(_.sum).toList
+
+    filterIncreasingMeasurements(groupedMeasurements)
   }
 }
